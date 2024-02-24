@@ -1,24 +1,27 @@
 <script lang="ts" setup name="Person">
-import { ObjectFlags } from "typescript";
-import { ref, watch, reactive } from "vue";
+import { ref, watch } from "vue";
 
-let person = reactive({
+let person = ref({
   name: "张三",
   age: 18,
 });
 
 function changeName() {
-  person.name += "~";
+  person.value.name += "~";
 }
 function changeAge() {
-  person.age += 1;
+  person.value.age += 1;
 }
 function changePerson() {
-  // reactive定义的数据的局限性，就是这样修改数据没有响应式
-  // person = { name: "李四", age: 20 };
-  Object.assign(person, { name: "李四", age: 20 });
+  person.value = { name: "李四", age: 20 };
 }
 
+/* 
+1.监视的是对象类型的数据，整个对象的被修改了，可以监视到，
+2. 如果想监视对象内部属性的变化，手动开启深度监听，{deep:true,immediate:true}立即执行一次监听函数
+3. 如果修改的是整个对象，person.value={}的形式，newValue和oldValue不一样
+4. 如果修改的是对象中的属性，person.value.name = xx,newValue和oldValue是一样的,地址指向的对象是一样的
+*/
 watch(
   person,
   (newValue, oldValue) => {
@@ -30,7 +33,7 @@ watch(
 
 <template>
   <div class="person">
-    <h1>情况三：监视【reactive】定义的【对象类型】的数据</h1>
+    <h1>情况二：监视【ref】定义的【对象类型】的数据</h1>
     <h2>姓名：{{ person.name }}</h2>
     <h2>年龄：{{ person.age }}</h2>
     <button @click="changeName">修改名字</button>
