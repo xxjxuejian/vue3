@@ -1,17 +1,16 @@
-<script lang="ts">
+<script lang="ts" setup name="App">
 import Person from "./components/Person.vue";
-export default {
-  name: "App",
-  components: {
-    Person,
-  },
-};
+import { reactive } from "vue";
+let persons = reactive([
+  { id: 1, name: "张三", age: 18, address: "广州" },
+  { id: 2, name: "李四", age: 20, address: "北京" },
+]);
 </script>
 
 <template>
   <div class="app">
-    <h1>你好啊</h1>
-    <Person></Person>
+    <h1>App父组件</h1>
+    <Person :persons="persons"></Person>
   </div>
 </template>
 

@@ -1,16 +1,25 @@
 <script lang="ts" setup name="Person">
-// 必须写成数组的形式["persons"]
-const props = defineProps(["persons"]);
-console.log(props);
+import { ref } from "vue";
+
+let name = "xxj";
+
+function showH2() {
+  console.log("子组件的方法");
+}
+
+// 向父组件暴露的东西
+defineExpose({
+  name,
+  showH2,
+});
 </script>
 
 <template>
   <div class="person">
-    <ul>
-      <li v-for="p in props.persons" :key="p.id">
-        {{ p.name }}-{{ p.age }}-{{ p.address }}
-      </li>
-    </ul>
+    <h1>中国</h1>
+    <h2>北京</h2>
+    <h3>尚硅谷</h3>
+    <button>输出h2元素</button>
   </div>
 </template>
 
